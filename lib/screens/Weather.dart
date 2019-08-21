@@ -67,9 +67,7 @@ class _WeatherState extends State<Weather> {
   }
 
   Widget get _loadingView {
-    return new Center(
-      child: Text('loading'),
-    );
+    return Center(child: CircularProgressIndicator());
   }
 
   Widget get _weatherView {
