@@ -56,7 +56,7 @@ class LocationCity extends StatelessWidget {
                   'Get Weather',
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
-              )
+              ),
             ],
           ),
         ),
