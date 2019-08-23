@@ -39,6 +39,7 @@ class _WeatherState extends State<Weather> {
   String cityName;
   String description;
   bool isLoading = true;
+  dynamic newData;
   @override
   void initState() {
     super.initState();
@@ -48,12 +49,12 @@ class _WeatherState extends State<Weather> {
   buildUI(String text) async {
     var weatherData = await networkHelper.getData(text);
     var forecastData = await networkHelper.getForcast(text);
-
+    print(forecastData['list'].toList());
     double temp = weatherData['main']['temp'];
     temperature = temp.toInt();
     cityName = weatherData['name'];
     description = weatherData['weather'][0]['description'];
-    print(weatherData);
+    newData = forecastData['list'].toList();
     setState(() {
       isLoading = false;
     });
@@ -124,13 +125,13 @@ class _WeatherState extends State<Weather> {
               height: 400.0,
               child: ListView.builder(
                   padding: const EdgeInsets.all(8.0),
-                  itemCount: entries.length,
+                  itemCount: newData.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      height: 50,
-                      color: Colors.amber[colorCodes[index]],
-                      child: Center(child: Text('Entry ${entries[index]}')),
-                    );
+                        height: 50,
+                        child: Center(
+                          child: Text(newData[index]['dt'].toString()),
+                        ));
                   }),
             ),
           ),
