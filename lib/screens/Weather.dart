@@ -48,6 +48,7 @@ class _WeatherState extends State<Weather> {
   buildUI(String text) async {
     var weatherData = await networkHelper.getData(text);
     var forecastData = await networkHelper.getForcast(text);
+
     double temp = weatherData['main']['temp'];
     temperature = temp.toInt();
     cityName = weatherData['name'];

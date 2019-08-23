@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/screens/Weather.dart';
-import 'package:weather/screens/test.dart';
+
 import 'package:weather/service/Network.dart';
 
 class LocationCity extends StatelessWidget {
