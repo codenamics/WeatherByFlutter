@@ -73,64 +73,121 @@ class _WeatherState extends State<Weather> {
   }
 
   Widget get _weatherView {
-    return Center(
+    return SafeArea(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Flexible(
             flex: 1,
-            child: Center(
-              child: Column(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(30, 1, 30, 0),
+              decoration: new BoxDecoration(
+                color: Color(0xff4556FE),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black54,
+                    blurRadius: 40.0, // has the effect of softening the shadow
+                    spreadRadius: 1.0, // has the effect of extending the shadow
+                    offset: Offset(
+                      5.0, // horizontal, move right 10
+                      5.0, // vertical, move down 10
+                    ),
+                  )
+                ],
+              ),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    '$cityName',
-                    style: TextStyle(fontSize: 40),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          '$cityName',
+                          style: TextStyle(fontSize: 25, color: Colors.white),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          '$temperature°C',
+                          style: TextStyle(fontSize: 50, color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    '$temperature°C',
-                    style: TextStyle(fontSize: 79),
-                  ),
-                  Text(
-                    '$description',
-                    style: TextStyle(fontSize: 40),
-                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          '$description',
+                          style: TextStyle(fontSize: 25, color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  )
                 ],
               ),
             ),
           ),
-          Row(),
           SizedBox(
-            height: 80.0,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.all(8.0),
-                itemCount: entries.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      width: 100,
-                      color: Colors.amber[colorCodes[index]],
-                      child: Center(child: Text('Entry ${entries[index]}')),
-                    ),
-                  );
-                }),
+            height: 30,
           ),
           Flexible(
-            flex: 1,
-            child: SizedBox(
-              height: 400.0,
+            flex: 2,
+            child: Container(
+              margin: EdgeInsets.fromLTRB(20, 10, 30, 20),
+              decoration: new BoxDecoration(
+                color: Color(0xff4556FE),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0xFFD4DAF6),
+                    offset: Offset(20, 20),
+                  ),
+                  BoxShadow(
+                    color: Color(0xFFadb6ff),
+                    offset: Offset(10, 10),
+                  ),
+                ],
+              ),
               child: ListView.builder(
                   padding: const EdgeInsets.all(8.0),
                   itemCount: newData.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
+                        margin: const EdgeInsets.all(5.0),
                         height: 50,
                         child: Center(
-                          child: Text(newData[index]['dt'].toString()),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Text(
+                                newData[index]['dt_txt'].toString(),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                              Text(
+                                newData[index]['weather'][0]['main'].toString(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                newData[index]['main']['temp'].toString(),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
                         ));
                   }),
             ),
@@ -143,12 +200,23 @@ class _WeatherState extends State<Weather> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 1.0,
-        backgroundColor: Colors.transparent,
-        title: const Text('Change location'),
+        leading: new IconButton(
+            icon: new Icon(Icons.arrow_back, color: Colors.black)),
+        elevation: 0,
+        backgroundColor: Color(0xFFfafafa),
+        title: const Text(
+          'Change location',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: Stack(
-        children: <Widget>[AppBackground(), Center(child: _pageToDisplay)],
+        children: <Widget>[
+          AppBackground(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(5, 20, 5, 10),
+            child: Center(child: _pageToDisplay),
+          )
+        ],
       ),
     );
   }
