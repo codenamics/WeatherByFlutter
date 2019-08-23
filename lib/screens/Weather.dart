@@ -79,20 +79,19 @@ class _WeatherState extends State<Weather> {
           Flexible(
             flex: 1,
             child: Container(
-              margin: EdgeInsets.fromLTRB(30, 1, 30, 0),
+              margin: EdgeInsets.fromLTRB(12, 1, 30, 0),
               decoration: new BoxDecoration(
                 color: Color(0xff4556FE),
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black54,
-                    blurRadius: 40.0, // has the effect of softening the shadow
-                    spreadRadius: 1.0, // has the effect of extending the shadow
-                    offset: Offset(
-                      5.0, // horizontal, move right 10
-                      5.0, // vertical, move down 10
-                    ),
-                  )
+                    color: Color(0xFFD4DAF6),
+                    offset: Offset(20, 20),
+                  ),
+                  BoxShadow(
+                    color: Color(0xFFadb6ff),
+                    offset: Offset(10, 10),
+                  ),
                 ],
               ),
               child: Row(
@@ -140,20 +139,10 @@ class _WeatherState extends State<Weather> {
           Flexible(
             flex: 2,
             child: Container(
-              margin: EdgeInsets.fromLTRB(20, 10, 30, 20),
+              margin: EdgeInsets.fromLTRB(12, 10, 12, 20),
               decoration: new BoxDecoration(
                 color: Color(0xff4556FE),
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0xFFD4DAF6),
-                    offset: Offset(20, 20),
-                  ),
-                  BoxShadow(
-                    color: Color(0xFFadb6ff),
-                    offset: Offset(10, 10),
-                  ),
-                ],
               ),
               child: ListView.builder(
                   padding: const EdgeInsets.all(8.0),
@@ -170,20 +159,20 @@ class _WeatherState extends State<Weather> {
                               Text(
                                 newData[index]['dt_txt'].toString(),
                                 style: TextStyle(
-                                    color: Colors.white, fontSize: 16),
+                                    color: Colors.white, fontSize: 14),
                               ),
                               Text(
                                 newData[index]['weather'][0]['main'].toString(),
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
                                 newData[index]['main']['temp'].toString(),
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     fontWeight: FontWeight.w600),
                               ),
                             ],
@@ -200,10 +189,26 @@ class _WeatherState extends State<Weather> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              color: Colors.black,
+            ),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.notifications,
+              color: Colors.black,
+            ),
+            onPressed: () {},
+          )
+        ],
         leading: new IconButton(
             icon: new Icon(Icons.arrow_back, color: Colors.black)),
         elevation: 0,
-        backgroundColor: Color(0xFFfafafa),
+        backgroundColor: Colors.transparent,
         title: const Text(
           'Change location',
           style: TextStyle(color: Colors.black),
@@ -211,10 +216,12 @@ class _WeatherState extends State<Weather> {
       ),
       body: Stack(
         children: <Widget>[
-          AppBackground(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(5, 20, 5, 10),
-            child: Center(child: _pageToDisplay),
+          Container(
+            decoration: BoxDecoration(color: Color(0xFFfafafa)),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(5, 20, 5, 10),
+              child: Center(child: _pageToDisplay),
+            ),
           )
         ],
       ),
