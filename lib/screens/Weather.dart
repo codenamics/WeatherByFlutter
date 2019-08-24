@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/common/format.dart';
+import 'package:weather/models/GeoLocation.dart';
 import 'package:weather/screens/AppBackgroud.dart';
 import 'package:weather/service/Network.dart';
 import 'package:intl/intl.dart';
@@ -13,7 +14,7 @@ class Weather extends StatefulWidget {
 
 class _WeatherState extends State<Weather> {
   NetworkHelper networkHelper = NetworkHelper();
-
+  Location location = Location();
   Formats formats = Formats();
   int temperature;
   String cityName;
@@ -174,7 +175,9 @@ class _WeatherState extends State<Weather> {
               Icons.search,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              location.getCurrentLocation();
+            },
           ),
           IconButton(
             icon: Icon(
