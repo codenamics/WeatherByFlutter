@@ -178,8 +178,10 @@ class _WeatherState extends State<Weather> {
               color: Colors.black,
             ),
             onPressed: () {
-              buildUI(city);
-              print(city);
+              setState(() {
+                isLoading = true;
+                buildUI(city);
+              });
             },
           ),
           IconButton(
