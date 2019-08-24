@@ -20,9 +20,11 @@ class _WeatherState extends State<Weather> {
   String description;
   bool isLoading = true;
   dynamic newData;
+  String city;
   @override
   void initState() {
     super.initState();
+    city = widget.text;
     buildUI(widget.text);
   }
 
@@ -37,6 +39,7 @@ class _WeatherState extends State<Weather> {
     setState(() {
       isLoading = false;
     });
+    print('bulild');
   }
 
   Widget get _pageToDisplay {
@@ -174,7 +177,12 @@ class _WeatherState extends State<Weather> {
               Icons.search,
               color: Colors.black,
             ),
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                buildUI(city);
+                print(city);
+              });
+            },
           ),
           IconButton(
             icon: Icon(
