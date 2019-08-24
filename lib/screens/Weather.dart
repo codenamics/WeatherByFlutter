@@ -173,10 +173,8 @@ class _WeatherState extends State<Weather> {
       appBar: AppBar(
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              Icons.search,
-              color: Colors.black,
-            ),
+            padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+            icon: Icon(Icons.autorenew, color: Colors.black, size: 30),
             onPressed: () {
               setState(() {
                 isLoading = true;
@@ -185,15 +183,17 @@ class _WeatherState extends State<Weather> {
             },
           ),
           IconButton(
+            padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
             icon: Icon(
-              Icons.notifications,
+              Icons.location_on,
               color: Colors.black,
+              size: 30,
             ),
             onPressed: () {},
           )
         ],
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
