@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:weather/common/format.dart';
 import 'package:weather/screens/AppBackgroud.dart';
 import 'package:weather/service/Network.dart';
+import 'package:intl/intl.dart';
 
 class Weather extends StatefulWidget {
   Weather({this.text});
@@ -10,31 +12,9 @@ class Weather extends StatefulWidget {
 }
 
 class _WeatherState extends State<Weather> {
-  final List<String> entries = <String>[
-    'A',
-    'B',
-    'C',
-    'C',
-    'C',
-    'C',
-    'C',
-    'C',
-    'C',
-    'C',
-  ];
-  final List<int> colorCodes = <int>[
-    600,
-    500,
-    100,
-    100,
-    100,
-    100,
-    100,
-    100,
-    100,
-    100,
-  ];
   NetworkHelper networkHelper = NetworkHelper();
+
+  Formats formats = Formats();
   int temperature;
   String cityName;
   String description;
@@ -49,7 +29,6 @@ class _WeatherState extends State<Weather> {
   buildUI(String text) async {
     var weatherData = await networkHelper.getData(text);
     var forecastData = await networkHelper.getForcast(text);
-    print(forecastData['list'].toList());
     double temp = weatherData['main']['temp'];
     temperature = temp.toInt();
     cityName = weatherData['name'];
@@ -139,17 +118,17 @@ class _WeatherState extends State<Weather> {
           Flexible(
             flex: 2,
             child: Container(
-              margin: EdgeInsets.fromLTRB(12, 10, 12, 20),
+              margin: EdgeInsets.fromLTRB(12, 10, 12, 0),
               decoration: new BoxDecoration(
                 color: Color(0xff4556FE),
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
               ),
               child: ListView.builder(
                   padding: const EdgeInsets.all(8.0),
                   itemCount: newData.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                        margin: const EdgeInsets.all(5.0),
+                        margin: const EdgeInsets.all(4.0),
                         height: 50,
                         child: Center(
                           child: Row(
@@ -157,7 +136,7 @@ class _WeatherState extends State<Weather> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
                               Text(
-                                newData[index]['dt_txt'].toString(),
+                                formats.readTimeStamp(newData[index]['dt']),
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 14),
                               ),
@@ -169,7 +148,7 @@ class _WeatherState extends State<Weather> {
                                     fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                newData[index]['main']['temp'].toString(),
+                                formats.floatin(newData[index]['main']['temp']),
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
@@ -205,8 +184,12 @@ class _WeatherState extends State<Weather> {
             onPressed: () {},
           )
         ],
-        leading: new IconButton(
-            icon: new Icon(Icons.arrow_back, color: Colors.black)),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: const Text(
@@ -219,7 +202,7 @@ class _WeatherState extends State<Weather> {
           Container(
             decoration: BoxDecoration(color: Color(0xFFfafafa)),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(5, 20, 5, 10),
+              padding: const EdgeInsets.fromLTRB(5, 20, 5, 0),
               child: Center(child: _pageToDisplay),
             ),
           )
