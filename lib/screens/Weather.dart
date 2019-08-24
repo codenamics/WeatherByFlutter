@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather/common/format.dart';
-import 'package:weather/screens/AppBackgroud.dart';
+
 import 'package:weather/service/Network.dart';
 import 'package:intl/intl.dart';
 
@@ -178,10 +178,8 @@ class _WeatherState extends State<Weather> {
               color: Colors.black,
             ),
             onPressed: () {
-              setState(() {
-                buildUI(city);
-                print(city);
-              });
+              buildUI(city);
+              print(city);
             },
           ),
           IconButton(
