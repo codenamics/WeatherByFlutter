@@ -31,4 +31,29 @@ class NetworkHelper {
       print(response.statusCode);
     }
   }
+
+  Future<dynamic> getDataLocation(lat, lon) async {
+    http.Response response = await http.get(
+        'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey&units=metric');
+
+    if (response.statusCode == 200) {
+      var decodedData = jsonDecode(response.body);
+
+      return decodedData;
+    } else {
+      print(response.statusCode);
+    }
+  }
+
+  Future<dynamic> getForcastLocation(lat, lon) async {
+    http.Response response = await http.get(
+        'http://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&units=metric&appid=$apiKey');
+    if (response.statusCode == 200) {
+      var decodedData = jsonDecode(response.body);
+
+      return decodedData;
+    } else {
+      print(response.statusCode);
+    }
+  }
 }

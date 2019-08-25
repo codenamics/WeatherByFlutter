@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:weather/common/format.dart';
 
 import 'package:weather/service/Network.dart';
-import 'package:intl/intl.dart';
 import 'package:weather/service/location.dart';
 
 class Weather extends StatefulWidget {
@@ -26,7 +25,7 @@ class _WeatherState extends State<Weather> {
   void initState() {
     super.initState();
     city = widget.text;
-    buildUI(widget.text);
+    buildUI(city);
   }
 
   buildUI(String text) async {
@@ -40,7 +39,22 @@ class _WeatherState extends State<Weather> {
     setState(() {
       isLoading = false;
     });
-    print('bulild');
+  }
+
+  buildUIByLocation() async {
+    await location.getCurrentLocation();
+    var weatherLocation = await networkHelper.getDataLocation(
+        location.latitude, location.longitude);
+    var forcastLocation = await networkHelper.getForcastLocation(
+        location.latitude, location.longitude);
+    double temp = weatherLocation['main']['temp'];
+    temperature = temp.toInt();
+    cityName = weatherLocation['name'];
+    description = weatherLocation['weather'][0]['description'];
+    newData = forcastLocation['list'].toList();
+    setState(() {
+      isLoading = false;
+    });
   }
 
   Widget get _pageToDisplay {
@@ -177,10 +191,17 @@ class _WeatherState extends State<Weather> {
             padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
             icon: Icon(Icons.autorenew, color: Colors.black, size: 30),
             onPressed: () {
-              setState(() {
-                isLoading = true;
-                buildUI(city);
-              });
+              if (city == "") {
+                setState(() {
+                  isLoading = true;
+                  buildUIByLocation();
+                });
+              } else {
+                setState(() {
+                  isLoading = true;
+                  buildUI(city);
+                });
+              }
             },
           ),
           IconButton(
@@ -191,9 +212,11 @@ class _WeatherState extends State<Weather> {
               size: 30,
             ),
             onPressed: () async {
-              await location.getCurrentLocation();
-              print(location.latitude);
-              print(location.longitude);
+              setState(() {
+                city = '';
+                isLoading = true;
+              });
+              await buildUIByLocation();
             },
           )
         ],
