@@ -3,6 +3,7 @@ import 'package:weather/common/format.dart';
 
 import 'package:weather/service/Network.dart';
 import 'package:intl/intl.dart';
+import 'package:weather/service/location.dart';
 
 class Weather extends StatefulWidget {
   Weather({this.text});
@@ -13,7 +14,7 @@ class Weather extends StatefulWidget {
 
 class _WeatherState extends State<Weather> {
   NetworkHelper networkHelper = NetworkHelper();
-
+  Location location = Location();
   Formats formats = Formats();
   int temperature;
   String cityName;
@@ -189,7 +190,11 @@ class _WeatherState extends State<Weather> {
               color: Colors.black,
               size: 30,
             ),
-            onPressed: () {},
+            onPressed: () async {
+              await location.getCurrentLocation();
+              print(location.latitude);
+              print(location.longitude);
+            },
           )
         ],
         leading: IconButton(
