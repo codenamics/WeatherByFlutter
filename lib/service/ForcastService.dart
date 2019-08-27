@@ -28,11 +28,13 @@ class ForcastService {
     http.Response response = await http.get(
         'http://api.openweathermap.org/data/2.5/forecast?lat=$lat&lon=$lon&units=metric&appid=$apiKey');
     if (response.statusCode == 200) {
-      var decodedData = jsonDecode(response.body);
+      Map data = json.decode(response.body);
 
-      return decodedData;
+      final forcast =
+          (data['list'] as List).map((i) => new Forcast.fromJson(i));
+      return forcast.toList();
     } else {
-      print(response.statusCode);
+      return [];
     }
   }
 }

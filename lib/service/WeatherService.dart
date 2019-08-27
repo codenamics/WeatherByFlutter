@@ -17,8 +17,8 @@ class WeatherService {
     if (response.statusCode == 200) {
       Map data = json.decode(response.body);
 
-      var dd = CurrentWeather.fromJson(data);
-      return dd;
+      var currentData = CurrentWeather.fromJson(data);
+      return currentData;
     } else {
       return [];
     }
@@ -29,11 +29,12 @@ class WeatherService {
         'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$apiKey&units=metric');
 
     if (response.statusCode == 200) {
-      var decodedData = jsonDecode(response.body);
+      Map data = json.decode(response.body);
 
-      return decodedData;
+      var currentData = CurrentWeather.fromJson(data);
+      return currentData;
     } else {
-      print(response.statusCode);
+      return [];
     }
   }
 }

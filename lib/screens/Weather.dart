@@ -26,6 +26,7 @@ class _WeatherState extends State<Weather> {
   dynamic _weatherData;
   dynamic _forcastData;
   String _city;
+
   @override
   void initState() {
     super.initState();
@@ -44,15 +45,11 @@ class _WeatherState extends State<Weather> {
 
   buildUIByLocation() async {
     await location.getCurrentLocation();
-    var weatherLocation = await weatherService.getDataLocation(
+    _weatherData = await weatherService.getDataLocation(
         location.latitude, location.longitude);
-    var forcastLocation = await forcastService.getForcastLocation(
+    _forcastData = await forcastService.getForcastLocation(
         location.latitude, location.longitude);
-    double temp = weatherLocation['main']['temp'];
-    temperature = temp.toInt();
-    cityName = weatherLocation['name'];
-    description = weatherLocation['weather'][0]['description'];
-    _forcastData = forcastLocation['list'].toList();
+
     setState(() {
       _isLoading = false;
     });
@@ -67,7 +64,9 @@ class _WeatherState extends State<Weather> {
   }
 
   Widget get _loadingView {
-    return Center(child: CircularProgressIndicator());
+    return Center(
+      child: CircularProgressIndicator(),
+    );
   }
 
   Widget get _weatherView {
@@ -76,16 +75,20 @@ class _WeatherState extends State<Weather> {
         children: <Widget>[
           Flexible(
             flex: 1,
-            child:
-                CurrentWeatherUI(weatherData: _weatherData, formats: formats),
+            child: CurrentWeatherUI(
+              weatherData: _weatherData,
+              formats: formats,
+            ),
           ),
           SizedBox(
             height: 30,
           ),
           Flexible(
             flex: 2,
-            child:
-                ForcastWeatherUI(forcastData: _forcastData, formats: formats),
+            child: ForcastWeatherUI(
+              forcastData: _forcastData,
+              formats: formats,
+            ),
           ),
         ],
       ),
@@ -98,7 +101,11 @@ class _WeatherState extends State<Weather> {
         actions: <Widget>[
           IconButton(
             padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-            icon: Icon(Icons.autorenew, color: Colors.black, size: 30),
+            icon: Icon(
+              Icons.autorenew,
+              color: Colors.black,
+              size: 30,
+            ),
             onPressed: () {
               if (_city == "") {
                 setState(() {
@@ -130,7 +137,10 @@ class _WeatherState extends State<Weather> {
           )
         ],
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Colors.black),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -139,16 +149,24 @@ class _WeatherState extends State<Weather> {
         backgroundColor: Colors.transparent,
         title: const Text(
           'Change location',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+            color: Colors.black,
+          ),
         ),
       ),
       body: Stack(
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Color(0xFFfafafa)),
+            decoration: BoxDecoration(
+              color: Color(
+                0xFFfafafa,
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(5, 20, 5, 0),
-              child: Center(child: _pageToDisplay),
+              child: Center(
+                child: _pageToDisplay,
+              ),
             ),
           )
         ],
