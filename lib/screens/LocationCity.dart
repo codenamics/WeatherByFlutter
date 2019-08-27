@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:weather/screens/Weather.dart';
 
-import 'package:weather/service/Network.dart';
-
 class LocationCity extends StatelessWidget {
   @override
   String text;
-  NetworkHelper networkHelper = NetworkHelper();
+
   Widget build(BuildContext context) {
     return Container(
       child: SingleChildScrollView(
