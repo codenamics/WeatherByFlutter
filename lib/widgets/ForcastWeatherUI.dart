@@ -38,14 +38,14 @@ class ForcastWeatherUI extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 14),
                       ),
                       Text(
-                        _forcastData[index].main,
+                        _forcastData[index].weather.main,
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        _forcastData[index].temp.temp.toString(),
+                        _forcastData[index].main.temp.toString(),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,

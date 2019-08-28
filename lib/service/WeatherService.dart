@@ -2,8 +2,6 @@ import 'package:http/http.dart' as http;
 import 'package:weather/models/CurrentWeather.dart';
 import 'dart:convert';
 
-import 'package:weather/models/Forcast.dart';
-
 class WeatherService {
   WeatherService({this.text});
   CurrentWeather currentWeather = CurrentWeather();
