@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather/common/colors.dart';
 import 'package:weather/common/format.dart';
 
 class ForcastWeatherUI extends StatelessWidget {
@@ -17,7 +18,7 @@ class ForcastWeatherUI extends StatelessWidget {
     return Container(
       margin: EdgeInsets.fromLTRB(12, 10, 12, 0),
       decoration: new BoxDecoration(
-        color: Color(0xff4556FE),
+        color: boxColor,
         borderRadius: BorderRadius.vertical(top: Radius.circular(10.0)),
       ),
       child: ListView.builder(
@@ -44,7 +45,7 @@ class ForcastWeatherUI extends StatelessWidget {
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        formats.floatin(_forcastData[index].temp),
+                        _forcastData[index].temp.temp.toString(),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,

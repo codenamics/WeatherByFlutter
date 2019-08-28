@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather/common/colors.dart';
 import 'package:weather/screens/Weather.dart';
 
 class LocationCity extends StatelessWidget {
@@ -37,7 +38,7 @@ class LocationCity extends StatelessWidget {
               ),
               FlatButton(
                 padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
-                color: Color(0xff0e09fb),
+                color: buttonColor,
                 splashColor: Colors.blueAccent,
                 onPressed: () async {
                   Navigator.push(

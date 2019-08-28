@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather/common/colors.dart';
 import 'package:weather/common/format.dart';
 
 class CurrentWeatherUI extends StatelessWidget {
@@ -17,7 +18,7 @@ class CurrentWeatherUI extends StatelessWidget {
     return Container(
       margin: EdgeInsets.fromLTRB(12, 1, 30, 0),
       decoration: new BoxDecoration(
-        color: Color(0xff4556FE),
+        color: boxColor,
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
         boxShadow: [
           BoxShadow(

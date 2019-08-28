@@ -19,9 +19,7 @@ class _WeatherState extends State<Weather> {
   ForcastService forcastService = ForcastService();
   Location location = Location();
   Formats formats = Formats();
-  int temperature;
-  String cityName;
-  String description;
+
   bool _isLoading = true;
   dynamic _weatherData;
   dynamic _forcastData;
