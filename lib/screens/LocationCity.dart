@@ -3,7 +3,6 @@ import 'package:weather/common/colors.dart';
 import 'package:weather/screens/Weather.dart';
 
 class LocationCity extends StatelessWidget {
-  @override
   String text;
 
   Widget build(BuildContext context) {

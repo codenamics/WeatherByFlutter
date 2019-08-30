@@ -14,7 +14,6 @@ class Formats {
   }
 
   String floatin(temp) {
-    print(temp);
     var rounded = temp.round().toString();
     var temperature = rounded + '°C';
     return temperature;

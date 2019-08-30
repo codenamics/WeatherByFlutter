@@ -12,7 +12,7 @@ class ForcastService {
 
   Future<List<Forcast>> getForcast(text) async {
     http.Response response = await http.get(
-        'http://api.openweathermap.org/data/2.5/forecast?q=${text}&units=metric&appid=$apiKey');
+        'http://api.openweathermap.org/data/2.5/forecast?q=$text&units=metric&appid=$apiKey');
     if (response.statusCode == 200) {
       Map data = json.decode(response.body);
 
