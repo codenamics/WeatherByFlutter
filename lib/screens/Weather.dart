@@ -24,6 +24,8 @@ class _WeatherState extends State<Weather> {
   dynamic _weatherData;
   dynamic _forcastData;
   String _city;
+  double _lat;
+  double _lon;
 
   @override
   void initState() {
@@ -50,6 +52,8 @@ class _WeatherState extends State<Weather> {
 
     setState(() {
       _isLoading = false;
+      _lat = location.latitude;
+      _lon = location.longitude;
     });
   }
 
@@ -74,6 +78,9 @@ class _WeatherState extends State<Weather> {
           Flexible(
             flex: 1,
             child: CurrentWeatherUI(
+              lat: _lat,
+              lon: _lon,
+              text: _city,
               weatherData: _weatherData,
               formats: formats,
             ),
