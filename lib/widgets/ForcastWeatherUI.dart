@@ -45,7 +45,7 @@ class ForcastWeatherUI extends StatelessWidget {
                             fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        _forcastData[index].main.temp.toString(),
+                        formats.floatin(_forcastData[index].main.temp),
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
