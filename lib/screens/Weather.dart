@@ -37,7 +37,7 @@ class _WeatherState extends State<Weather> {
   buildUI(String text) async {
     _weatherData = await weatherService.getData(text);
     _forcastData = await forcastService.getForcast(text);
-
+    print('sdf');
     setState(() {
       _isLoading = false;
     });
