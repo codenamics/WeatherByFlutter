@@ -13,17 +13,14 @@ class CurrentWeatherUI extends StatelessWidget {
   })  : _weatherData = weatherData,
         super(key: key);
 
-  final _weatherData;
+  final dynamic _weatherData;
   final Formats formats;
-  final text;
-  final lat;
-  final lon;
+  final String text;
+  final double lat;
+  final double lon;
 
   @override
   Widget build(BuildContext context) {
-    print(this.text);
-    print(this.lon);
-    print(this.lat);
     return Container(
       margin: EdgeInsets.fromLTRB(12, 1, 30, 0),
       decoration: new BoxDecoration(

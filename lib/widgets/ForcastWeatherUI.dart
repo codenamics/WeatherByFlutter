@@ -10,7 +10,7 @@ class ForcastWeatherUI extends StatelessWidget {
   })  : _forcastData = forcastData,
         super(key: key);
 
-  final _forcastData;
+  final dynamic _forcastData;
   final Formats formats;
 
   @override
