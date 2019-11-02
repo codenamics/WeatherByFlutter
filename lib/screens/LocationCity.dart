@@ -58,9 +58,13 @@ class _LocationCityState extends State<LocationCity> {
                         )),
                     TextField(
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color(0xFFc1c1c1),
                         enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Color(0xffa3a3a3), width: 1),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderSide: BorderSide(
+              color: Colors.transparent,
+            )
                         ),
                         hintText: 'CityName',
                         prefixText: ' ',
