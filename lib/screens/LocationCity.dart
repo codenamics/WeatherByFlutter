@@ -52,20 +52,21 @@ class _LocationCityState extends State<LocationCity> {
                     Container(
                         margin: EdgeInsets.only(bottom: 30),
                         child: Text(
-                          'WeatherApp',
+                          'WEATHER',
                           style: TextStyle(
-                              fontSize: 50, fontWeight: FontWeight.w300),
+                            color: Colors.black,
+                              fontSize: 50, fontWeight: FontWeight.bold),
                         )),
                     TextField(
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: Color(0xFFc1c1c1),
+                        fillColor: Color(0xFFffffff),
                         enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-            borderSide: BorderSide(
-              color: Colors.transparent,
-            )
-                        ),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(5)),
+                            borderSide: BorderSide(
+                              color: Colors.transparent,
+                            )),
                         hintText: 'CityName',
                         prefixText: ' ',
                       ),
@@ -74,7 +75,7 @@ class _LocationCityState extends State<LocationCity> {
                       },
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      padding: EdgeInsets.only(top: 10, bottom: 15),
                     ),
                     RectGetter(
                       key: rectGetterKey,
