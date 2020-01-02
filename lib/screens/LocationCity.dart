@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:weather/common/colors.dart';
 import 'package:weather/providers/CurrentWeather.dart';
+import 'package:weather/providers/ForcastWeatherProvider.dart';
 import 'package:weather/screens/Weather.dart';
 import 'package:weather/utils/Fade.dart';
 import 'package:weather/utils/Ripple.dart';
@@ -23,6 +24,8 @@ class _LocationCityState extends State<LocationCity> {
   void _onTap() async {
     FocusScope.of(context).requestFocus(FocusNode());
     Provider.of<CurrentWeatherProvider>(context, listen: false).getData(text);
+    Provider.of<ForcastWeatherProvider>(context, listen: false)
+        .getForcast(text);
     setState(() => rect = RectGetter.getRectFromKey(rectGetterKey));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() =>
@@ -33,10 +36,7 @@ class _LocationCityState extends State<LocationCity> {
 
   void _goToNextPage() {
     Navigator.of(context)
-        .push(FadeRouteBuilder(
-            page: Weather(
-          text: text,
-        )))
+        .push(FadeRouteBuilder(page: Weather()))
         .then((_) => setState(() => rect = null));
   }
 
@@ -57,16 +57,16 @@ class _LocationCityState extends State<LocationCity> {
                         child: Text(
                           'WEATHER',
                           style: TextStyle(
-                            color: Colors.black,
-                              fontSize: 50, fontWeight: FontWeight.bold),
+                              color: Colors.black,
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold),
                         )),
                     TextField(
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Color(0xFFffffff),
                         enabledBorder: OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(5)),
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
                             borderSide: BorderSide(
                               color: Colors.transparent,
                             )),

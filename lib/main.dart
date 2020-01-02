@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/providers/CurrentWeather.dart';
+import 'package:weather/providers/ForcastWeatherProvider.dart';
 
 import 'package:weather/screens/Landing.dart';
 
@@ -12,10 +13,13 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
-            value: CurrentWeatherProvider(),
-          ),
+          value: CurrentWeatherProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: ForcastWeatherProvider(),
+        ),
       ],
-          child: MaterialApp(
+      child: MaterialApp(
         theme: ThemeData.light(),
         home: LandingPage(),
       ),

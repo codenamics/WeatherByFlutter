@@ -1,12 +1,12 @@
 class ForcastMain {
-  double temp;
-  double temp_min;
-  double temp_max;
-  double pressure;
-  double sea_level;
-  double grnd_level;
-  int humidity;
-  double temp_kf;
+   final double temp;
+ final double temp_min;
+ final double temp_max;
+ final double pressure;
+ final double sea_level;
+ final double grnd_level;
+ final int humidity;
+ final double temp_kf;
 
   ForcastMain(
       {this.temp,

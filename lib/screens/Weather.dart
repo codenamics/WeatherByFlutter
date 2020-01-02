@@ -2,110 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:weather/common/format.dart';
 import 'package:weather/providers/CurrentWeather.dart';
+import 'package:weather/providers/ForcastWeatherProvider.dart';
 
-import 'package:weather/service/WeatherService.dart';
-import 'package:weather/service/ForcastService.dart';
-import 'package:weather/service/Location.dart';
 import 'package:weather/widgets/CurrentWeatherUI.dart';
 import 'package:weather/widgets/ForcastWeatherUI.dart';
+
+import '../widgets/ForcastWeatherUI.dart';
 
 class Weather extends StatefulWidget {
   Weather({this.text});
   final String text;
-
   _WeatherState createState() => _WeatherState();
 }
 
 class _WeatherState extends State<Weather> {
-  WeatherService weatherService = WeatherService();
-  ForcastService forcastService = ForcastService();
-  Location location = Location();
   Formats formats = Formats();
 
-  bool _isLoading = true;
-  dynamic _weatherData;
-  dynamic _forcastData;
   String _city;
-  double _lat;
-  double _lon;
 
   @override
   void initState() {
     super.initState();
     _city = widget.text;
-    buildUI(_city);
   }
 
-  buildUI(String text) async {
-    _weatherData = await weatherService.getData(text);
-    _forcastData = await forcastService.getForcast(text);
-   
-    setState(() {
-      _isLoading = false;
-    });
-  }
-
-  buildUIByLocation() async {
-    await location.getCurrentLocation();
-    _weatherData = await weatherService.getDataLocation(
-        location.latitude, location.longitude);
-    _forcastData = await forcastService.getForcastLocation(
-        location.latitude, location.longitude);
-
-    setState(() {
-      _isLoading = false;
-      _lat = location.latitude;
-      _lon = location.longitude;
-    });
-  }
-
-  Widget get _pageToDisplay {
-    if (_isLoading == true) {
-      return _loadingView;
-    } else {
-      return _weatherView;
-    }
-  }
-
-  Widget get _loadingView {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  Widget get _weatherView {
-    return SafeArea(
-      child: Column(
-        children: <Widget>[
-          Flexible(
-            flex: 1,
-            child: CurrentWeatherUI(
-              lat: _lat,
-              lon: _lon,
-              text: _city,
-              weatherData: _weatherData,
-              formats: formats,
-            ),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          Flexible(
-            flex: 2,
-            child: ForcastWeatherUI(
-              forcastData: _forcastData,
-              formats: formats,
-            ),
-          ),
-        ],
-      ),
-    );
+  _refreshForcast() async {
+    await Provider.of<ForcastWeatherProvider>(context, listen: false)
+        .getForcast(_city);
   }
 
   Widget build(BuildContext context) {
-   var data = Provider.of<CurrentWeatherProvider>(context).currentData;
-    print(data.cityName);
-    print('object');
+    print('main');
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -116,19 +43,7 @@ class _WeatherState extends State<Weather> {
               color: Colors.black,
               size: 30,
             ),
-            onPressed: () {
-              if (_city == "") {
-                setState(() {
-                  _isLoading = true;
-                  buildUIByLocation();
-                });
-              } else {
-                setState(() {
-                  _isLoading = true;
-                  buildUI(_city);
-                });
-              }
-            },
+            onPressed: () {},
           ),
           IconButton(
             padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
@@ -138,11 +53,10 @@ class _WeatherState extends State<Weather> {
               size: 30,
             ),
             onPressed: () async {
-              setState(() {
-                _city = '';
-                _isLoading = true;
-              });
-              await buildUIByLocation();
+              await Provider.of<CurrentWeatherProvider>(context, listen: false)
+                  .getDataLocation();
+              await Provider.of<ForcastWeatherProvider>(context, listen: false)
+                  .getForcastLocation();
             },
           )
         ],
@@ -175,7 +89,33 @@ class _WeatherState extends State<Weather> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(5, 20, 5, 0),
               child: Center(
-                child: _pageToDisplay,
+                child: SafeArea(
+                  child: Column(
+                    children: <Widget>[
+                      Flexible(
+                        flex: 1,
+                        child: CurrentWeatherUI(
+                          // lat: _lat,
+                          // lon: _lon,
+                          // text: _city,
+
+                          formats: formats,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Flexible(
+                        flex: 2,
+                        child: RefreshIndicator(
+                            onRefresh: () => _refreshForcast(),
+                            child: ForcastWeatherUI(
+                              formats: formats,
+                            )),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           )
