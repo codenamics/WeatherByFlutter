@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:weather/common/colors.dart';
+import 'package:weather/providers/CurrentWeather.dart';
 import 'package:weather/screens/Weather.dart';
 import 'package:weather/utils/Fade.dart';
 import 'package:weather/utils/Ripple.dart';
@@ -19,7 +21,8 @@ class _LocationCityState extends State<LocationCity> {
   Rect rect;
 
   void _onTap() async {
-    FocusScope.of(context).requestFocus(new FocusNode());
+    FocusScope.of(context).requestFocus(FocusNode());
+    Provider.of<CurrentWeatherProvider>(context, listen: false).getData(text);
     setState(() => rect = RectGetter.getRectFromKey(rectGetterKey));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() =>

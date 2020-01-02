@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weather/common/format.dart';
+import 'package:weather/providers/CurrentWeather.dart';
 
 import 'package:weather/service/WeatherService.dart';
 import 'package:weather/service/ForcastService.dart';
@@ -37,7 +39,7 @@ class _WeatherState extends State<Weather> {
   buildUI(String text) async {
     _weatherData = await weatherService.getData(text);
     _forcastData = await forcastService.getForcast(text);
-    print('sdf');
+   
     setState(() {
       _isLoading = false;
     });
@@ -101,6 +103,9 @@ class _WeatherState extends State<Weather> {
   }
 
   Widget build(BuildContext context) {
+   var data = Provider.of<CurrentWeatherProvider>(context).currentData;
+    print(data.cityName);
+    print('object');
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather/providers/CurrentWeather.dart';
 
 import 'package:weather/screens/Landing.dart';
 
@@ -7,9 +9,16 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData.light(),
-      home: LandingPage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(
+            value: CurrentWeatherProvider(),
+          ),
+      ],
+          child: MaterialApp(
+        theme: ThemeData.light(),
+        home: LandingPage(),
+      ),
     );
   }
 }
