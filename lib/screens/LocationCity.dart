@@ -23,7 +23,6 @@ class _LocationCityState extends State<LocationCity> {
   GlobalKey rectGetterKeyLocation = RectGetter.createGlobalKey();
   Rect rect;
 
-
   void rippleRec(recKey) {
     setState(() => rect = RectGetter.getRectFromKey(recKey));
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -34,15 +33,14 @@ class _LocationCityState extends State<LocationCity> {
   }
 
   void _onTap(cityName) async {
-    
     FocusScope.of(context).requestFocus(FocusNode());
     if (cityName) {
-       final isValid = _form.currentState.validate();
-      
-    if (!isValid) {
-      return;
-    }
-    _form.currentState.save();
+      final isValid = _form.currentState.validate();
+
+      if (!isValid) {
+        return;
+      }
+      _form.currentState.save();
       await Provider.of<CurrentWeatherProvider>(context, listen: false)
           .getData(text);
       await Provider.of<ForcastWeatherProvider>(context, listen: false)
@@ -54,9 +52,8 @@ class _LocationCityState extends State<LocationCity> {
       await Provider.of<ForcastWeatherProvider>(context, listen: false)
           .getForcastLocation();
       rippleRec(rectGetterKeyLocation);
-     
     }
-      _form.currentState.reset();
+    _form.currentState.reset();
   }
 
   void _goToNextPage() {
@@ -88,7 +85,7 @@ class _LocationCityState extends State<LocationCity> {
                         )),
                     Form(
                       key: _form,
-                                          child: TextFormField(
+                      child: TextFormField(
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Please provide CityName';
@@ -99,26 +96,27 @@ class _LocationCityState extends State<LocationCity> {
                           text = value;
                         },
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(18),
                           filled: true,
                           fillColor: Color(0xFFffffff),
                           enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
                               borderSide: BorderSide(
                                 color: Colors.transparent,
                               )),
                           hintText: 'CityName',
                           prefixText: ' ',
                         ),
-                        
                       ),
                     ),
                     SizedBox(
-                      height: 25,
+                      height: 35,
                     ),
                     RectGetter(
                       key: rectGetterKey,
                       child: FlatButton(
-                        padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                        padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
                         color: buttonColor,
                         splashColor: Colors.blueAccent,
                         onPressed: () => _onTap(true),
@@ -131,18 +129,21 @@ class _LocationCityState extends State<LocationCity> {
                       ),
                     ),
                     SizedBox(
-                      height: 15,
+                      height: 10,
                     ),
-                    Center(child: Text('OR', style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300),)),
+                    Center(
+                        child: Text(
+                      'OR',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                    )),
                     SizedBox(
-                      height: 15,
+                      height: 10,
                     ),
                     RectGetter(
                       key: rectGetterKeyLocation,
                       child: FlatButton(
-                        padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                        padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
                         color: buttonColor,
                         splashColor: Colors.blueAccent,
                         onPressed: () => _onTap(false),
