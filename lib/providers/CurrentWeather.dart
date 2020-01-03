@@ -39,7 +39,7 @@ class CurrentWeatherProvider with ChangeNotifier {
         'https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric');
     if (response.statusCode == 200) {
       Map data = json.decode(response.body);
-      print(data);
+ 
       var responseData = CurrentWeather.fromJson(data);
       _currentWeatherData = responseData;
     } else {

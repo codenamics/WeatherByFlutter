@@ -32,7 +32,7 @@ class _WeatherState extends State<Weather> {
   }
 
   Widget build(BuildContext context) {
-    print('mailn');
+   
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
