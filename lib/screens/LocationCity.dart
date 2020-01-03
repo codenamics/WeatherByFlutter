@@ -17,21 +17,46 @@ class _LocationCityState extends State<LocationCity> {
   String text;
   Ripple ripple = Ripple();
   final Duration animationDuration = Duration(milliseconds: 500);
+  final _form = GlobalKey<FormState>();
   final Duration delay = Duration(milliseconds: 0);
   GlobalKey rectGetterKey = RectGetter.createGlobalKey();
+  GlobalKey rectGetterKeyLocation = RectGetter.createGlobalKey();
   Rect rect;
 
-  void _onTap() async {
-    FocusScope.of(context).requestFocus(FocusNode());
-    Provider.of<CurrentWeatherProvider>(context, listen: false).getData(text);
-    Provider.of<ForcastWeatherProvider>(context, listen: false)
-        .getForcast(text);
-    setState(() => rect = RectGetter.getRectFromKey(rectGetterKey));
+
+  void rippleRec(recKey) {
+    setState(() => rect = RectGetter.getRectFromKey(recKey));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() =>
           rect = rect.inflate(1.3 * MediaQuery.of(context).size.longestSide));
       Future.delayed(animationDuration + delay, _goToNextPage);
     });
+  }
+
+  void _onTap(cityName) async {
+    
+    FocusScope.of(context).requestFocus(FocusNode());
+    if (cityName) {
+       final isValid = _form.currentState.validate();
+      
+    if (!isValid) {
+      return;
+    }
+    _form.currentState.save();
+      await Provider.of<CurrentWeatherProvider>(context, listen: false)
+          .getData(text);
+      await Provider.of<ForcastWeatherProvider>(context, listen: false)
+          .getForcast(text);
+      rippleRec(rectGetterKey);
+    } else {
+      await Provider.of<CurrentWeatherProvider>(context, listen: false)
+          .getDataLocation();
+      await Provider.of<ForcastWeatherProvider>(context, listen: false)
+          .getForcastLocation();
+      rippleRec(rectGetterKeyLocation);
+     
+    }
+      _form.currentState.reset();
   }
 
   void _goToNextPage() {
@@ -61,24 +86,34 @@ class _LocationCityState extends State<LocationCity> {
                               fontSize: 50,
                               fontWeight: FontWeight.bold),
                         )),
-                    TextField(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Color(0xFFffffff),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                            )),
-                        hintText: 'CityName',
-                        prefixText: ' ',
+                    Form(
+                      key: _form,
+                                          child: TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please provide CityName';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          text = value;
+                        },
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Color(0xFFffffff),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                              )),
+                          hintText: 'CityName',
+                          prefixText: ' ',
+                        ),
+                        
                       ),
-                      onChanged: (value) {
-                        text = value;
-                      },
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 15),
+                    SizedBox(
+                      height: 25,
                     ),
                     RectGetter(
                       key: rectGetterKey,
@@ -86,11 +121,35 @@ class _LocationCityState extends State<LocationCity> {
                         padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
                         color: buttonColor,
                         splashColor: Colors.blueAccent,
-                        onPressed: _onTap,
+                        onPressed: () => _onTap(true),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0)),
                         child: Text(
-                          'Get Weather',
+                          'Get Weather by CityName',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Center(child: Text('OR', style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w300),)),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    RectGetter(
+                      key: rectGetterKeyLocation,
+                      child: FlatButton(
+                        padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                        color: buttonColor,
+                        splashColor: Colors.blueAccent,
+                        onPressed: () => _onTap(false),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5.0)),
+                        child: Text(
+                          'Get Weather by Location',
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                       ),

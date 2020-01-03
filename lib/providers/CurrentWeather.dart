@@ -28,7 +28,7 @@ class CurrentWeatherProvider with ChangeNotifier {
       var responseData = CurrentWeather.fromJson(data);
       _currentWeatherData = responseData;
     } else {
-      return [];
+      return;
     }
     notifyListeners();
   }
@@ -43,7 +43,7 @@ class CurrentWeatherProvider with ChangeNotifier {
       var responseData = CurrentWeather.fromJson(data);
       _currentWeatherData = responseData;
     } else {
-      return [];
+      return;
     }
     notifyListeners();
   }
