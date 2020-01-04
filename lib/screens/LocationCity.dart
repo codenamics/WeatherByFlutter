@@ -38,7 +38,7 @@ class _LocationCityState extends State<LocationCity> {
     super.dispose();
   }
 
-  void _onTap(cityName) async {
+  Future _onTap(cityName) async {
     FocusScope.of(context).requestFocus(FocusNode());
     if (cityName) {
       final isValid = _form.currentState.validate();
@@ -162,7 +162,7 @@ class _LocationCityState extends State<LocationCity> {
                         padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
                         color: buttonColor,
                         splashColor: Colors.blueAccent,
-                        onPressed: () => isLoading ? null : _onTap(true),
+                        onPressed: isLoading ? null : () => _onTap(true),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0)),
                         child: isLoading
@@ -191,10 +191,11 @@ class _LocationCityState extends State<LocationCity> {
                     RectGetter(
                       key: rectGetterKeyLocation,
                       child: FlatButton(
+                        
                         padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
                         color: buttonColor,
                         splashColor: Colors.blueAccent,
-                        onPressed: () => isLoading ? null : _onTap(false),
+                        onPressed: isLoading ? null : () => _onTap(false),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0)),
                         child: isLoading
