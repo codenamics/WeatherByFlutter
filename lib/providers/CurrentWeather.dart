@@ -34,9 +34,9 @@ class CurrentWeatherProvider with ChangeNotifier {
   }
 
   Future<void> getDataLocation() async {
-    await location.getCurrentLocation();
+
     http.Response response = await http.get(
-        'https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric');
+        'https://api.openweathermap.org/data/2.5/weather?lat=${Location.latitude}&lon=${Location.longitude}&appid=$apiKey&units=metric');
     if (response.statusCode == 200) {
       Map data = json.decode(response.body);
  

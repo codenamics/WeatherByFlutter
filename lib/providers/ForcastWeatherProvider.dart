@@ -5,6 +5,7 @@ import 'dart:convert';
 import '../models/Forcast.dart';
 
 class ForcastWeatherProvider with ChangeNotifier {
+  
   String apiKey = '4e2b39896dcc3622534cc498191bdc35';
   Location location = Location();
   List<Forcast> _forcastWeatherData = [];
@@ -27,9 +28,9 @@ class ForcastWeatherProvider with ChangeNotifier {
   }
 
   Future<void> getForcastLocation() async {
-    await location.getCurrentLocation();
+    
     http.Response response = await http.get(
-        'http://api.openweathermap.org/data/2.5/forecast?lat=${location.latitude}&lon=${location.longitude}&units=metric&appid=$apiKey');
+        'http://api.openweathermap.org/data/2.5/forecast?lat=${Location.latitude}&lon=${Location.longitude}&units=metric&appid=$apiKey');
     if (response.statusCode == 200) {
       Map data = json.decode(response.body);
 
