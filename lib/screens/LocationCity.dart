@@ -33,11 +33,11 @@ class _LocationCityState extends State<LocationCity> {
       Future.delayed(animationDuration + delay, _goToNextPage);
     });
   }
-void dispose() {
 
-    
+  void dispose() {
     super.dispose();
   }
+
   void _onTap(cityName) async {
     FocusScope.of(context).requestFocus(FocusNode());
     if (cityName) {
@@ -55,7 +55,7 @@ void dispose() {
           .getData(text);
       await Provider.of<ForcastWeatherProvider>(context, listen: false)
           .getForcast(text);
-          setState(() {
+      setState(() {
         isLoading = false;
       });
       rippleRec(rectGetterKey);
@@ -63,17 +63,40 @@ void dispose() {
       setState(() {
         isLoading = true;
       });
-      await Location.getCurrentLocation();
-      await Provider.of<CurrentWeatherProvider>(context, listen: false)
-          .getDataLocation();
-      await Provider.of<ForcastWeatherProvider>(context, listen: false)
-          .getForcastLocation();
-          setState(() {
-        isLoading = false;
-      });
-      rippleRec(rectGetterKeyLocation);
+      try {
+        await Location.getCurrentLocation();
+        await Provider.of<CurrentWeatherProvider>(context, listen: false)
+            .getDataLocation();
+        await Provider.of<ForcastWeatherProvider>(context, listen: false)
+            .getForcastLocation();
+        setState(() {
+          isLoading = false;
+        });
+        rippleRec(rectGetterKeyLocation);
+      } catch (e) {
+        await showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text('Location service access denied'),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('Okay'),
+                onPressed: () {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  Navigator.of(ctx).pop();
+                },
+              )
+            ],
+          ),
+        );
+      }
     }
     _form.currentState.reset();
+    setState(() {
+      isLoading = false;
+    });
   }
 
   void _goToNextPage() {
@@ -142,10 +165,15 @@ void dispose() {
                         onPressed: () => isLoading ? null : _onTap(true),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0)),
-                        child:isLoading ? Center(child: CircularProgressIndicator(),) : Text(
-                          'Get Weather by CityName',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
+                        child: isLoading
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : Text(
+                                'Get Weather by CityName',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
                       ),
                     ),
                     SizedBox(
@@ -163,17 +191,19 @@ void dispose() {
                     RectGetter(
                       key: rectGetterKeyLocation,
                       child: FlatButton(
-                        
                         padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
                         color: buttonColor,
                         splashColor: Colors.blueAccent,
                         onPressed: () => isLoading ? null : _onTap(false),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0)),
-                        child: isLoading ? CircularProgressIndicator() : Text(
-                          'Get Weather by Location',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
+                        child: isLoading
+                            ? CircularProgressIndicator()
+                            : Text(
+                                'Get Weather by Location',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18),
+                              ),
                       ),
                     ),
                   ],
