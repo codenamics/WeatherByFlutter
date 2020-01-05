@@ -1,81 +1,92 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weather/common/colors.dart';
-import 'package:weather/common/format.dart';
 import 'package:weather/providers/CurrentWeather.dart';
+import 'package:weather/common/format.dart';
 
 class CurrentWeatherUI extends StatelessWidget {
-  const CurrentWeatherUI({
-    @required this.formats,
-    this.text,
-    this.lat,
-    this.lon,
-  });
-
-  final Formats formats;
-  final String text;
-  final double lat;
-  final double lon;
-
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+
+    double _calcFontSizeCity() {
+      if (height == 896 || height == 667) {
+        return 42;
+      }
+      return 14;
+    }
+
+    double _calcFontSizeCon() {
+      if (height == 896 || height == 667) {
+        return 22;
+      }
+      return 14;
+    }
+
+    print(height);
+    Formats formats = Formats();
     var weatherData = Provider.of<CurrentWeatherProvider>(context).currentData;
-    print('sec');
-    return weatherData == null
-        ? CircularProgressIndicator
-        : Container(
-            margin: EdgeInsets.fromLTRB(12, 1, 30, 0),
-            decoration: new BoxDecoration(
-              color: boxColor,
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0xFFD4DAF6),
-                  offset: Offset(20, 20),
-                ),
-                BoxShadow(
-                  color: Color(0xFFadb6ff),
-                  offset: Offset(10, 10),
-                ),
-              ],
+    return SliverAppBar(
+        forceElevated: true,
+        backgroundColor: Colors.transparent,
+        expandedHeight: MediaQuery.of(context).size.height * 0.5,
+        flexibleSpace: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(
+                      'https://images.pexels.com/photos/207130/pexels-photo-207130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'),
+                  fit: BoxFit.cover),
             ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        weatherData.cityName,
-                        style: TextStyle(fontSize: 25, color: Colors.white),
+                  child: Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            weatherData.cityName,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: _calcFontSizeCity(),
+                                color: Colors.white),
+                          ),
+                          FittedBox(
+                            fit: BoxFit.fitHeight,
+                            child: Text(
+                              weatherData.description,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: _calcFontSizeCon(),
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        formats.floatin(weatherData.temp),
-                        style: TextStyle(fontSize: 50, color: Colors.white),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        weatherData.description,
-                        style: TextStyle(fontSize: 25, color: Colors.white),
-                      ),
-                    ],
+                Container(
+                  color: Colors.black54,
+                  width: 150,
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          formats.floatin(weatherData.temp),
+                          style: TextStyle(fontSize: 40, color: Colors.white),
+                        ),
+                      ],
+                    ),
                   ),
-                )
+                ),
               ],
-            ),
-          );
+            )));
   }
 }

@@ -5,6 +5,7 @@ import 'package:weather/common/colors.dart';
 import 'package:weather/providers/CurrentWeather.dart';
 import 'package:weather/providers/ForcastWeatherProvider.dart';
 import 'package:weather/screens/Weather.dart';
+
 import 'package:weather/service/LocationService.dart';
 import 'package:weather/utils/Fade.dart';
 import 'package:weather/utils/Ripple.dart';
@@ -15,14 +16,14 @@ class LocationCity extends StatefulWidget {
 }
 
 class _LocationCityState extends State<LocationCity> {
-  bool isLoading = false;
+  bool _isLoading = false;
   String text;
   Ripple ripple = Ripple();
   final Duration animationDuration = Duration(milliseconds: 500);
   final _form = GlobalKey<FormState>();
   final Duration delay = Duration(milliseconds: 0);
   GlobalKey rectGetterKey = RectGetter.createGlobalKey();
-  GlobalKey rectGetterKeyLocation = RectGetter.createGlobalKey();
+
   Rect rect;
 
   void rippleRec(recKey) {
@@ -47,7 +48,7 @@ class _LocationCityState extends State<LocationCity> {
         return;
       }
       setState(() {
-        isLoading = true;
+        _isLoading = true;
       });
       _form.currentState.save();
 
@@ -55,13 +56,14 @@ class _LocationCityState extends State<LocationCity> {
           .getData(text);
       await Provider.of<ForcastWeatherProvider>(context, listen: false)
           .getForcast(text);
-      setState(() {
-        isLoading = false;
-      });
+      
       rippleRec(rectGetterKey);
+      setState(() {
+        _isLoading = false;
+      });
     } else {
       setState(() {
-        isLoading = true;
+        _isLoading = true;
       });
       try {
         await Location.getCurrentLocation();
@@ -69,10 +71,11 @@ class _LocationCityState extends State<LocationCity> {
             .getDataLocation();
         await Provider.of<ForcastWeatherProvider>(context, listen: false)
             .getForcastLocation();
+        
+        rippleRec(rectGetterKey);
         setState(() {
-          isLoading = false;
+          _isLoading = false;
         });
-        rippleRec(rectGetterKeyLocation);
       } catch (e) {
         await showDialog(
           context: context,
@@ -83,7 +86,7 @@ class _LocationCityState extends State<LocationCity> {
                 child: Text('Okay'),
                 onPressed: () {
                   setState(() {
-                    isLoading = false;
+                    _isLoading = false;
                   });
                   Navigator.of(ctx).pop();
                 },
@@ -95,7 +98,7 @@ class _LocationCityState extends State<LocationCity> {
     }
     _form.currentState.reset();
     setState(() {
-      isLoading = false;
+      _isLoading = false;
     });
   }
 
@@ -108,6 +111,7 @@ class _LocationCityState extends State<LocationCity> {
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
+        _isLoading ? Center(child: CircularProgressIndicator(key: rectGetterKey,)):
         Center(
           child: Container(
             child: SingleChildScrollView(
@@ -156,25 +160,22 @@ class _LocationCityState extends State<LocationCity> {
                     SizedBox(
                       height: 35,
                     ),
-                    RectGetter(
-                      key: rectGetterKey,
-                      child: FlatButton(
-                        padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
-                        color: buttonColor,
-                        splashColor: Colors.blueAccent,
-                        onPressed: isLoading ? null : () => _onTap(true),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0)),
-                        child: isLoading
-                            ? Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : Text(
-                                'Get Weather by CityName',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                      ),
+                    FlatButton(
+                      padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
+                      color: Colors.blueAccent,
+                      splashColor: Colors.blueAccent,
+                      onPressed: _isLoading ? null : () => _onTap(true),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: _isLoading
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Text(
+                              'Get Weather by CityName',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18),
+                            ),
                     ),
                     SizedBox(
                       height: 10,
@@ -188,24 +189,20 @@ class _LocationCityState extends State<LocationCity> {
                     SizedBox(
                       height: 10,
                     ),
-                    RectGetter(
-                      key: rectGetterKeyLocation,
-                      child: FlatButton(
-                        
-                        padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
-                        color: buttonColor,
-                        splashColor: Colors.blueAccent,
-                        onPressed: isLoading ? null : () => _onTap(false),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0)),
-                        child: isLoading
-                            ? CircularProgressIndicator()
-                            : Text(
-                                'Get Weather by Location',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                      ),
+                    FlatButton(
+                      padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
+                      color: Colors.blueAccent,
+                      splashColor: Colors.blueAccent,
+                      onPressed: _isLoading ? null : () => _onTap(false),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      child: _isLoading
+                          ? CircularProgressIndicator()
+                          : Text(
+                              'Get Weather by Location',
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 18),
+                            ),
                     ),
                   ],
                 ),
