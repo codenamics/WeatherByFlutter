@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rect_getter/rect_getter.dart';
+import 'package:weather/animations/FadeAnimation.dart';
 import 'package:weather/common/colors.dart';
 import 'package:weather/providers/CurrentWeather.dart';
 import 'package:weather/providers/ForcastWeatherProvider.dart';
@@ -121,7 +122,7 @@ class _LocationCityState extends State<LocationCity> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Container(
+                      FadeAnimation(1.1,Container(
                         margin: EdgeInsets.only(bottom: 30),
                         child: Text(
                           'WEATHER',
@@ -129,8 +130,10 @@ class _LocationCityState extends State<LocationCity> {
                               color: Colors.black,
                               fontSize: 50,
                               fontWeight: FontWeight.bold),
-                        )),
-                    Form(
+                        ))),
+                    FadeAnimation(1.3,Container(
+                        margin: EdgeInsets.only(bottom: 30),
+                        child: Form(
                       key: _form,
                       child: TextFormField(
                         validator: (value) {
@@ -156,11 +159,14 @@ class _LocationCityState extends State<LocationCity> {
                           prefixText: ' ',
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    FlatButton(
+                    ),)),
+                       
+                     
+                    
+                    
+                     FadeAnimation(1.5,Container(
+                      
+                        child: FlatButton(
                       padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
                       color: Colors.blueAccent,
                       splashColor: Colors.blueAccent,
@@ -176,20 +182,23 @@ class _LocationCityState extends State<LocationCity> {
                               style: TextStyle(
                                   color: Colors.white, fontSize: 18),
                             ),
-                    ),
-                    SizedBox(
+                    ))),
+                  SizedBox(
                       height: 10,
                     ),
-                    Center(
+                      FadeAnimation(1.5,Center(
                         child: Text(
                       'OR',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-                    )),
+                    )),),
+                    
                     SizedBox(
                       height: 10,
                     ),
-                    FlatButton(
+                       FadeAnimation(1.6,Container(
+                        margin: EdgeInsets.only(bottom: 30),
+                        child: FlatButton(
                       padding: EdgeInsets.fromLTRB(0, 17, 0, 17),
                       color: Colors.blueAccent,
                       splashColor: Colors.blueAccent,
@@ -203,7 +212,7 @@ class _LocationCityState extends State<LocationCity> {
                               style: TextStyle(
                                   color: Colors.white, fontSize: 18),
                             ),
-                    ),
+                    ),)),
                   ],
                 ),
               ),
