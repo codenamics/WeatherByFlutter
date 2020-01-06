@@ -42,7 +42,7 @@ class _LocationCityState extends State<LocationCity> {
         _isLoading = true;
       });
       _form.currentState.save();
-      weatherByCityName(context, text);
+     await weatherByCityName(context, text);
       rippleRec(rectGetterKey);
       setState(() {
         _isLoading = false;
@@ -52,7 +52,7 @@ class _LocationCityState extends State<LocationCity> {
         _isLoading = true;
       });
       try {
-        weatherByLocation(context);
+       await weatherByLocation(context);
         rippleRec(rectGetterKey);
         setState(() {
           _isLoading = false;

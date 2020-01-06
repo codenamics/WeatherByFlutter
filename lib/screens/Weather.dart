@@ -21,7 +21,7 @@ class _WeatherState extends State<Weather> {
     setState(() {
       _isLoading = true;
     });
-    weatherByCityName(context, widget.text);
+   await weatherByCityName(context, widget.text);
     print('city');
     setState(() {
       _isLoading = false;
@@ -32,7 +32,7 @@ class _WeatherState extends State<Weather> {
     setState(() {
       _isLoading = true;
     });
-    weatherByLocation(context);
+   await weatherByLocation(context);
     print('loc');
     setState(() {
       _isLoading = false;
