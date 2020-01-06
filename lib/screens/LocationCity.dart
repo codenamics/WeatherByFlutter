@@ -97,7 +97,7 @@ class _LocationCityState extends State<LocationCity> {
         );
       }
     }
-    _form.currentState.reset();
+   
     setState(() {
       _isLoading = false;
     });

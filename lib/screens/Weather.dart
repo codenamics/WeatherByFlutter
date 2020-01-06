@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:weather/common/format.dart';
+import 'package:weather/providers/CurrentWeather.dart';
+import 'package:weather/providers/ForcastWeatherProvider.dart';
 
 import 'package:weather/widgets/CurrentWeatherUI.dart';
 import 'package:weather/widgets/ForcastWeatherUI.dart';
@@ -20,7 +23,13 @@ class _WeatherState extends State<Weather> {
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
-                CurrentWeatherUI(),
+                SliverAppBar(
+                  forceElevated: true,
+                  expandedHeight: 220,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: CurrentWeatherUI(),
+                  ),
+                ),
               ];
             },
             body: ForcastWeatherUI()));
